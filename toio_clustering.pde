@@ -5,35 +5,21 @@ Keystone ks;
 CornerPinSurface surface;
 ClusterController controller;
 PGraphics offscreen;
+ArrayList<DataPoint> dataSet;
 
 boolean live_demo = true;//false;
 
 void setup(){
    size(1900, 1000, P3D);
    ks = new Keystone(this);
-   surface = ks.createCornerPinSurface(1700, 1000, 20);
-   offscreen = createGraphics(1700, 1000, P3D);
+   surface = ks.createCornerPinSurface(410, 820, 20);
+   offscreen = createGraphics(410, 820, P3D);
    
    controller = new ClusterController(offscreen);
+
    
-   // generate fake clusters
-   ArrayList<PVector> centers = new  ArrayList<PVector>();
-   for(int i = 0; i < 6; ++i){
-      centers.add(new PVector(random(0, 1), random(0, 1))); 
-   }
-   ArrayList<PVector> data = new  ArrayList<PVector>();
-   for(PVector pt : centers){
-      float s1 = random(0.01, 0.1);
-      float s2 = random(0.01, 0.1);
-      for(int i = 0; i < 50; ++i){
-         data.add(new PVector(
-           constrain(pt.x + randomGaussian()*s1, 0, 1), 
-           constrain(pt.y + randomGaussian()*s2, 0, 1)
-         )); 
-      }
-   }
-   
-   controller.setData(data);
+   dataSet = loadData("data.csv");
+   controller.setData(dataSet.get(1).data);
    
    setup_toio();
 }
@@ -60,7 +46,6 @@ void draw(){
 }
 
 void toio_feedback() {
-  ArrayList<ClusterCenter> centers = controller.getCenters();
   HashMap<Integer, PVector> pos = new HashMap<Integer, PVector>();
 
   for (int i = 0; i < nCubes; ++i) {
