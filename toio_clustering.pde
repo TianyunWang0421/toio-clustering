@@ -6,11 +6,13 @@ CornerPinSurface surface;
 ClusterController controller;
 PGraphics offscreen;
 
+boolean live_demo = true;//false;
+
 void setup(){
-   size(800, 800, P3D);
+   size(1900, 1000, P3D);
    ks = new Keystone(this);
-   surface = ks.createCornerPinSurface(600, 600, 20);
-   offscreen = createGraphics(600, 600, P3D);
+   surface = ks.createCornerPinSurface(1700, 1000, 20);
+   offscreen = createGraphics(1700, 1000, P3D);
    
    controller = new ClusterController(offscreen);
    
@@ -32,6 +34,8 @@ void setup(){
    }
    
    controller.setData(data);
+   
+   setup_toio();
 }
 
 void draw(){
@@ -45,6 +49,52 @@ void draw(){
     offscreen.endDraw(); // TODO: maybe consolidate into single controller function?
     
     surface.render(offscreen);
+    
+    
+    
+    update_toio(controller.getCenters());
+    
+    if (live_demo) {
+      check_active_toios();
+    }
+}
+
+void toio_feedback() {
+  ArrayList<ClusterCenter> centers = controller.getCenters();
+  HashMap<Integer, PVector> pos = new HashMap<Integer, PVector>();
+
+  for (int i = 0; i < nCubes; ++i) {
+    float[] mapped_coords = toio_to_sim(cubes[i].x, cubes[i].y);
+    pos.put(i, new PVector(mapped_coords[0], mapped_coords[1]));
+  }
+  
+  controller.setCenters(pos);
+}
+
+void check_active_toios() {
+  ArrayList<ClusterCenter> centers = controller.getCenters();
+  
+  for (int cube_i = 0; cube_i < nCubes; ++cube_i) {
+    boolean hit = false;
+    Cube cube = cubes[cube_i];
+    
+    for(int i = 0; i < centers.size(); ++i){
+        if(centers.get(i).id == cube_i){
+           hit = true;
+           if (cube.isLost) {
+             println("REMOVING " + cube_i);
+             controller.removeCenter(cube_i);
+           }
+        }
+     }
+     if (cube.isLost == false && hit == false) {
+       println("ADDING " + cube_i);
+       float[] mapped_coords = toio_to_sim(cube.x, cube.y);
+       controller.addCenter(cube_i, mapped_coords[0], mapped_coords[1]);
+       
+     }
+    
+  }
 }
 
 void keyReleased(){

@@ -1,23 +1,14 @@
 import java.util.Map;
 
 color[] COLORS = {
-   #FF0000,
-    #FFC000,
-    #E0FF00,
-    #7EFF00,
-    #21FF00,
-    #00FF41,
-    #00FF9F,
-    #00FDFF,
-    #009FFF,
-    #003DFF,
-    #2100FF,
-    #8300FF,
-    #E500FF,
-    #0052FF,
-    #FF007C,
-    #1000FF,
-    #FFFFFF
+    #FF0000,
+    #40FF00,
+    #00ffff,
+    #0000ff,
+    #8000ff,
+    #ff00ff,
+    #ff0000,
+    #996633
 };
 
 
@@ -153,6 +144,14 @@ class ClusterController {
        }
        
        centers.add(new ClusterCenter(new PVector(0.5 + random(-0.1, 0.1), 0.5 + random(-0.1, 0.1)), id, COLORS[id]));
+    }
+    
+    void addCenter(int id, float x, float y){
+       for(ClusterCenter ct : centers){
+         if(ct.id == id) return;
+       }
+       
+       centers.add(new ClusterCenter(new PVector(x, y), id, COLORS[id]));
     }
    
 }
