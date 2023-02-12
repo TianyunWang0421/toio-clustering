@@ -106,7 +106,13 @@ class ClusterController {
         
     }
     
-    void setCenters 
+    void setCenters(HashMap<Integer, PVector> pos){
+       for(ClusterCenter ct : centers){
+          if(pos.containsKey(ct.id)){
+             ct.pos = pos.get(ct.id);
+          }
+       }
+    }
     
     int closestCenterTo(PVector pt){
         int best = 0; 
