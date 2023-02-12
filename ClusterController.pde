@@ -48,16 +48,16 @@ class ClusterController {
     
     void setData(ArrayList<PVector> vals){
       this.data = vals;
-      for(PVector v : vals){
-         assert(v.x >= 0 && v.x <= 1);
-         assert(v.y >= 0 && v.y <= 1);
-      }
+      //for(PVector v : vals){
+      //   assert(v.x >= 0 && v.x <= 1);
+      //   assert(v.y >= 0 && v.y <= 1);
+      //}
     }
     
     void showBackground(){
       if(centers.size() == 0) return;
       offscreen.noStroke();
-      int res = 5;
+      int res = 3;
       for(int i = 0; i < offscreen.width; i += res){
          for(int j = 0; j < offscreen.height; j += res){
             int idx = closestCenterTo(new PVector((1.0*(i + res/2.0))/offscreen.width, (1.0*(j + res/2.0))/offscreen.height));
@@ -68,9 +68,11 @@ class ClusterController {
     }
     
     void showData(){
-      offscreen.strokeWeight(3);
+      //offscreen.noStroke();
       offscreen.stroke(0);
+      //offscreen.fill(0, 0, 0, 5);
        for(PVector v : data){
+          //offscreen.ellipse(v.x * offscreen.width, v.y * offscreen.height, 25, 25); 
           offscreen.point(v.x * offscreen.width, v.y * offscreen.height); 
        }
     }
@@ -118,10 +120,14 @@ class ClusterController {
        return centers; 
     }
     
+    PVector fix(PVector other){
+       return new PVector(other.x * offscreen.width, other.y * offscreen.height); 
+    }
+    
     int closestCenterTo(PVector pt){
         int best = 0; 
          for(int i = 0; i < centers.size(); ++i){
-             if(pt.dist(centers.get(best).pos) > pt.dist(centers.get(i).pos)){
+             if(fix(pt).dist(fix(centers.get(best).pos)) > fix(pt).dist(fix(centers.get(i).pos))){
                 best = i; 
              }
          }

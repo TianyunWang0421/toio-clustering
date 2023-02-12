@@ -5,33 +5,20 @@ Keystone ks;
 CornerPinSurface surface;
 ClusterController controller;
 PGraphics offscreen;
+ArrayList<DataPoint> dataSet;
 
 void setup(){
-   size(800, 800, P3D);
+   size(1000, 1000, P3D);
    ks = new Keystone(this);
-   surface = ks.createCornerPinSurface(600, 600, 20);
-   offscreen = createGraphics(600, 600, P3D);
+   surface = ks.createCornerPinSurface(410, 820, 20);
+   offscreen = createGraphics(410, 820, P3D);
    
    controller = new ClusterController(offscreen);
+
    
-   // generate fake clusters
-   ArrayList<PVector> centers = new  ArrayList<PVector>();
-   for(int i = 0; i < 6; ++i){
-      centers.add(new PVector(random(0, 1), random(0, 1))); 
-   }
-   ArrayList<PVector> data = new  ArrayList<PVector>();
-   for(PVector pt : centers){
-      float s1 = random(0.01, 0.1);
-      float s2 = random(0.01, 0.1);
-      for(int i = 0; i < 50; ++i){
-         data.add(new PVector(
-           constrain(pt.x + randomGaussian()*s1, 0, 1), 
-           constrain(pt.y + randomGaussian()*s2, 0, 1)
-         )); 
-      }
-   }
+   dataSet = loadData("data.csv");
    
-   controller.setData(data);
+   controller.setData(dataSet.get(1).data);
 }
 
 void draw(){
