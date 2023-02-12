@@ -114,6 +114,10 @@ class ClusterController {
        }
     }
     
+    ArrayList<ClusterCenter> getCenters(){
+       return centers; 
+    }
+    
     int closestCenterTo(PVector pt){
         int best = 0; 
          for(int i = 0; i < centers.size(); ++i){
