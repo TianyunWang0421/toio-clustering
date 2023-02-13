@@ -36,7 +36,7 @@ class ClusterController {
        centers = new ArrayList<ClusterCenter>();
        data = new ArrayList<PVector>();
        offscreen = _offscreen;
-       img = loadImage("background1.jpg");
+       img = loadImage("background1.png");
     }
     
     void setData(ArrayList<PVector> vals){
@@ -48,6 +48,7 @@ class ClusterController {
     }
     
     void showBackground(){
+      offscreen.image(this.img, 0, 0, offscreen.width, offscreen.height);
       if(centers.size() == 0) return;
       offscreen.noStroke();
       int res = 3;
