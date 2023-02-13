@@ -42,7 +42,7 @@ void setup_toio() {
 }
 
 int getWeekSlider() {
-  return floor(map(max(45, cubes[0].y), 45, 455, 0, 52));
+  return constrain(floor(map(constrain(cubes[0].y, 70, 430), 25, 430, 1, 51)), 1, 51);
 }
 
 int getOpacityKnob() {
@@ -104,6 +104,19 @@ void update_toio(ArrayList<ClusterCenter> centers) {
     if (shake_count > 20) {
       shake_count = 0;
       togglePoints = !togglePoints;
+      try {
+        midi(0, 57, 255, 10);
+        java.util.concurrent.TimeUnit.MILLISECONDS.sleep(50);
+        midi(1, 62, 255, 10);
+        java.util.concurrent.TimeUnit.MILLISECONDS.sleep(50);
+        midi(2, 67, 255, 10);
+        java.util.concurrent.TimeUnit.MILLISECONDS.sleep(50);
+        midi(3, 62, 255, 10);
+        java.util.concurrent.TimeUnit.MILLISECONDS.sleep(50);
+        midi(4, 67, 255, 10);
+      } catch(InterruptedException e) {
+      System.out.println("got interrupted!");
+    } 
     }
   } else {
    shake_count = 0; 
