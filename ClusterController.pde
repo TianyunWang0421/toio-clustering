@@ -30,11 +30,13 @@ class ClusterController {
     private ArrayList<PVector> data;
     private ArrayList<ClusterCenter> centers;
     private PGraphics offscreen;
+    PImage img;
       
     public ClusterController(PGraphics _offscreen){
        centers = new ArrayList<ClusterCenter>();
        data = new ArrayList<PVector>();
        offscreen = _offscreen;
+       img = loadImage("background1.jpg");
     }
     
     void setData(ArrayList<PVector> vals){

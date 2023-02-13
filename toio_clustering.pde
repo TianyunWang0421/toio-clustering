@@ -10,6 +10,7 @@ ArrayList<DataPoint> dataSet;
 
 int week = 1;
 String week_start = "";
+PImage img;
 
 void settings() {
     size(displayWidth, displayHeight, P3D);
@@ -30,6 +31,7 @@ void setup(){
    controller.setData(dataSet.get(1).data);
    
    setup_toio();
+   
 }
 
 void draw(){
