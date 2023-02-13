@@ -16,7 +16,7 @@ boolean aimCubeSpeed(int id, float tx, float ty) {
   
   //println("dd is:" + dd);
   
-  dd = min(dd, 1);
+  //dd = min(dd, 1);
   if (dd <.15) return true;
 
   int[] lr = cubes[id].aim(tx, ty);

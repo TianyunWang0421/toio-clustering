@@ -27,8 +27,10 @@ ArrayList<DataPoint> loadData(String fileName){
   
   for (TableRow row : table.rows()) {
     int week_index = row.getInt("week_index");
-    float x = row.getFloat("x");
-    float y = row.getFloat("y");
+    float x = row.getFloat("y");
+    float y = row.getFloat("x");
+    //float x = row.getFloat("x");
+    //float y = row.getFloat("y");
     String start = row.getString("Week Start");
     String end = row.getString("Week End");
     ret.get(week_index).data.add(new PVector(x, y));

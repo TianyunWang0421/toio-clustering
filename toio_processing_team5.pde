@@ -40,23 +40,24 @@ void setup_toio() {
   frameRate(30);
 }
 
-void control_toio(Cube control_cube_i) {
-  float val = map(control_cube_i.y, 0, 100, 0, 100);
-  float spin = map(control_cube_i.deg, 0, 360, 0, 100);
-  
-  //println(control_cube_i.deg);
+int getWeekSlider() {
+  return floor(map(max(45, cubes[0].y), 45, 455, 0, 52));
+}
+
+int getSpeedKnob() {
+  return floor(map(cubes[0].deg, 0, 360, 0, 100));
 }
 
 float[] sim_to_toio_mat(float x, float y) {
   float mapped_x = map(x, 0, 1, 45, 865);
   float mapped_y = map(y, 0, 1, 45, 455);
-  //if (mapped_x >= 455) mapped_x += 90;
+  if (mapped_x >= 455) mapped_x += 90;
   
   return new float[]{mapped_x, mapped_y};
 }
 
 float[] toio_to_sim(float x, float y) {
-  //if (x >= 455 + 90) x -= 90;
+  if (x >= 455 + 90) x -= 90;
   
   float mapped_x = map(x, 45, 865, 0, 1);
   float mapped_y = map(y, 45, 455, 0, 1);
@@ -79,20 +80,22 @@ void update_toio(ArrayList<ClusterCenter> centers) {
     setCubeTarget(center.id, center.pos.x, center.pos.y);
   }
 
-  for (int i = 0; i < nCubes; ++i) {
+  for (int i = 1; i < nCubes; ++i) {
     if (cubes[i].isLost==false) {
-      if (cubes[i].distance(cubes[i].targetx, cubes[i].targety) > 1) {
-        aimCubeSpeed(i, cubes[i].targetx, cubes[i].targety);
+      PVector move_vec = new PVector(cubes[i].targetx, cubes[i].targety).sub(new PVector(cubes[i].x, cubes[i].y)).normalize().mult(30);
+      //if (cubes[i].distance(cubes[i].targetx, cubes[i].targety) > 0.02) {
+      //  aimCubeSpeed(i, cubes[i].targetx, cubes[i].targety);
+      //}
+      if (cubes[i].distance(cubes[i].targetx, cubes[i].targety) > 0.02) {
+        aimCubeSpeed(i, cubes[i].x + move_vec.x, cubes[i].y + move_vec.y);
       }
+      println(move_vec.x);
     }
   }
   
-  if (now % 50 == 0) {
+  if (now % 15 == 0) {
     toio_feedback();
   }
-  
-  
-  control_toio(cubes[0]);
 
   // ---------- START DO NOT EDIT ----------
   //did we lost some cubes?

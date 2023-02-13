@@ -63,8 +63,10 @@ class ClusterController {
       offscreen.stroke(0);
       //offscreen.fill(0, 0, 0, 5);
        for(PVector v : data){
-          //offscreen.ellipse(v.x * offscreen.width, v.y * offscreen.height, 25, 25); 
-          offscreen.point(v.x * offscreen.width, v.y * offscreen.height); 
+          //offscreen.ellipse(v.x * offscreen.width, v.y * offscreen.height, 25, 25);
+          if (v.x > 0.1) {
+            offscreen.point(v.x * offscreen.width, v.y * offscreen.height); 
+          }
        }
     }
     
