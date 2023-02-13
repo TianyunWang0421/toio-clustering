@@ -47,7 +47,7 @@ class ClusterController {
       //}
     }
     
-    void showBackground(){
+    void showBackground(int opa){
       offscreen.image(this.img, 0, 0, offscreen.width, offscreen.height);
       if(centers.size() == 0) return;
       offscreen.noStroke();
@@ -55,21 +55,40 @@ class ClusterController {
       for(int i = 0; i < offscreen.width; i += res){
          for(int j = 0; j < offscreen.height; j += res){
             int idx = closestCenterTo(new PVector((1.0*(i + res/2.0))/offscreen.width, (1.0*(j + res/2.0))/offscreen.height));
-            offscreen.fill(centers.get(idx).col, 50);
+            
+            if (opa >= 180) {
+               offscreen.fill(centers.get(idx).col, map(opa, 180, 360, 255, 0)); 
+            } else {
+              offscreen.fill(centers.get(idx).col, map(opa, 0, 180, 0, 255));
+            }
             offscreen.rect(i, j, res, res);
          }
       }
     }
     
-    void showData(){
-      //offscreen.noStroke();
-      offscreen.stroke(0);
-      //offscreen.fill(0, 0, 0, 5);
+    void showData(boolean points){
+      if(points){
+          offscreen.stroke(0);
+          offscreen.strokeWeight(3);
+          offscreen.fill(255, 0, 0, 50);
+           for(PVector v : data){
+             if(v.x < 0.1) continue;
+              offscreen.point(v.x * offscreen.width, v.y * offscreen.height); 
+           }
+         
+         return;
+      }
+      
+      offscreen.noStroke();
+      //offscreen.stroke(0);
+      //offscreen.stroke(255, 0, 0);
+      offscreen.fill(255, 0, 0, 50);
        for(PVector v : data){
-          //offscreen.ellipse(v.x * offscreen.width, v.y * offscreen.height, 25, 25);
-          if (v.x > 0.1) {
-            offscreen.point(v.x * offscreen.width, v.y * offscreen.height); 
-          }
+         if(v.x < 0.1) continue;
+          offscreen.ellipse(v.x * offscreen.width, v.y * offscreen.height, 20, 20);
+          //if (v.x > 0.1) {
+          //  offscreen.point(v.x * offscreen.width, v.y * offscreen.height); 
+          //}
        }
     }
     

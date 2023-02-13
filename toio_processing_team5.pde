@@ -14,6 +14,7 @@ Cube[] slider_cubes;
 boolean mouseDrive = false;
 boolean chase = false;
 boolean spin = false;
+int shake_count = 0;
 
 void setup_toio() {
   // for OSC
@@ -44,8 +45,9 @@ int getWeekSlider() {
   return floor(map(max(45, cubes[0].y), 45, 455, 0, 52));
 }
 
-int getSpeedKnob() {
-  return floor(map(cubes[0].deg, 0, 360, 0, 100));
+int getOpacityKnob() {
+  
+  return cubes[0].deg;
 }
 
 float[] sim_to_toio_mat(float x, float y) {
@@ -82,10 +84,8 @@ void update_toio(ArrayList<ClusterCenter> centers) {
 
   for (int i = 1; i < nCubes; ++i) {
     if (cubes[i].isLost==false) {
-      PVector move_vec = new PVector(cubes[i].targetx, cubes[i].targety).sub(new PVector(cubes[i].x, cubes[i].y)).normalize().mult(30);
-      //if (cubes[i].distance(cubes[i].targetx, cubes[i].targety) > 0.02) {
-      //  aimCubeSpeed(i, cubes[i].targetx, cubes[i].targety);
-      //}
+      PVector move_vec = new PVector(cubes[i].targetx, cubes[i].targety).sub(new PVector(cubes[i].x, cubes[i].y)).normalize().mult(17);
+      
       if (cubes[i].distance(cubes[i].targetx, cubes[i].targety) > 0.02) {
         aimCubeSpeed(i, cubes[i].x + move_vec.x, cubes[i].y + move_vec.y);
       }
@@ -93,7 +93,23 @@ void update_toio(ArrayList<ClusterCenter> centers) {
     }
   }
   
-  if (now % 15 == 0) {
+  //if (cubes[0].prev_shake_level != cubes[0].shake_level) {
+  //  cubes[0].prev_shake_level = cubes[0].shake_level;
+  //  togglePoints = !togglePoints;
+  //}
+  
+  if (cubes[0].shake_level > 0) {
+    shake_count += 1;
+    
+    if (shake_count > 20) {
+      shake_count = 0;
+      togglePoints = !togglePoints;
+    }
+  } else {
+   shake_count = 0; 
+  }
+  
+  if (now % 25 == 0) {
     toio_feedback();
   }
 

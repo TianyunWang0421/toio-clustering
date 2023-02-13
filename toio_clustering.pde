@@ -11,6 +11,7 @@ ArrayList<DataPoint> dataSet;
 int week = 1;
 String week_start = "";
 PImage img;
+boolean togglePoints = true;
 
 void settings() {
     size(displayWidth, displayHeight, P3D);
@@ -38,9 +39,8 @@ void draw(){
     background(0, 0, 0);
     offscreen.beginDraw();
     offscreen.background(255, 255, 255);
-    controller.showBackground();
-    controller.showData();
-    controller.showCenters();
+    controller.showBackground(getOpacityKnob());
+    controller.showData(togglePoints);
     controller.updateCenters();
     
     offscreen.stroke(125);
@@ -79,8 +79,6 @@ void update_controls() {
     controller.setData(dataSet.get(week).data);
     week_start = dataSet.get(week).start;
   }
-  
-  //maxMotorSpeed = max(50, getSpeedKnob());
 }
 
 

@@ -25,6 +25,7 @@ class Cube {
   float pre_speedX[] = new float [aveFrameNum];
   float pre_speedY[] = new float [aveFrameNum];
 
+  int shake_level = 0;
 
   Cube(int i, boolean lost) {
     id = i;
