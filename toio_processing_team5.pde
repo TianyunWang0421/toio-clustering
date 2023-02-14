@@ -1,6 +1,8 @@
 import oscP5.*;
 import netP5.*;
 
+// cargo run -- -o -a 138,135,137
+
 //for OSC
 OscP5 oscP5;
 //where to send the commands to
