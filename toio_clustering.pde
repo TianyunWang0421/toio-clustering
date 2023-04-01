@@ -20,10 +20,11 @@ void settings() {
 
 void setup(){
    ks = new Keystone(this);
-   //surface = ks.createCornerPinSurface(410, 820, 20);
-   //offscreen = createGraphics(410, 820, P3D);
-    surface = ks.createCornerPinSurface(820, 410, 20);
-   offscreen = createGraphics(820, 410, P3D);
+   //surface = ks.createCornerPinSurface(820, 410, 20); // graphic mats
+   //offscreen = createGraphics(820, 410, P3D);
+   
+   surface = ks.createCornerPinSurface(915, 431, 20); // non-graphic mats
+   offscreen = createGraphics(915, 431, P3D);
    
    controller = new ClusterController(offscreen);
 

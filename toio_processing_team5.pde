@@ -44,7 +44,7 @@ void setup_toio() {
 }
 
 int getWeekSlider() {
-  return constrain(floor(map(constrain(cubes[0].y, 70, 430), 25, 430, 1, 51)), 1, 51);
+  return constrain(floor(map(constrain(cubes[0].y, 467, 898), 467 + 25, 898 - 25, 1, 51)), 1, 51);
 }
 
 int getOpacityKnob() {
@@ -53,20 +53,22 @@ int getOpacityKnob() {
 }
 
 float[] sim_to_toio_mat(float x, float y) {
-  float mapped_x = map(x, 0, 1, 45, 865);
-  float mapped_y = map(y, 0, 1, 45, 455);
-  if (mapped_x >= 455) mapped_x += 90;
+  float mapped_x = map(x, 0, 1, 34, 949);
+  float mapped_y = map(y, 0, 1, 467, 898);
+  //if (mapped_x >= 455) mapped_x += 90;
   
   return new float[]{mapped_x, mapped_y};
+  //return new float[]{x,y};
 }
 
 float[] toio_to_sim(float x, float y) {
-  if (x >= 455 + 90) x -= 90;
+  //if (x >= 455 + 90) x -= 90;
   
-  float mapped_x = map(x, 45, 865, 0, 1);
-  float mapped_y = map(y, 45, 455, 0, 1);
+  float mapped_x = map(x, 34, 949, 0, 1);
+  float mapped_y = map(y, 467, 898, 0, 1);
   
   return new float[]{mapped_x, mapped_y};
+  //return new float[]{x,y};
 }
 
 void setCubeTarget(int cube_i, float x, float y) {
@@ -103,7 +105,7 @@ void update_toio(ArrayList<ClusterCenter> centers) {
   if (cubes[0].shake_level > 0) {
     shake_count += 1;
     
-    if (shake_count > 20) {
+    if (shake_count > 13) {
       shake_count = 0;
       togglePoints = !togglePoints;
       try {
